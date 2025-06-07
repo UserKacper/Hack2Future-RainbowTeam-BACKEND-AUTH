@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FraudDetection.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250606193844_claims")]
-    partial class claims
+    [Migration("20250607112032_fix1")]
+    partial class fix1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace FraudDetection.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -85,6 +88,9 @@ namespace FraudDetection.Migrations
                     b.Property<string>("UniqueIdNumber")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -180,7 +186,7 @@ namespace FraudDetection.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("InsuranceClaim");
+                    b.ToTable("InsuranceClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

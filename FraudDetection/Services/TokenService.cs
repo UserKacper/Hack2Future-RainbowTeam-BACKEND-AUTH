@@ -37,12 +37,15 @@ namespace FraudDetection.Services
                         new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()),
                         new Claim(ClaimTypes.Role, (await _userManager.GetRolesAsync(appUser)).FirstOrDefault() ?? string.Empty),
                     }),
-
                     Expires = expirationTime,
+                    Issuer = "http://localhost:8000", // 👈 MUST MATCH Program.cs
+                    Audience = "http://localhost:8000", // 👈 MUST MATCH Program.cs
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["secret:jwt"])),
-                        SecurityAlgorithms.HmacSha256Signature)
+                        SecurityAlgorithms.HmacSha256Signature
+                    )
                 };
+
 
                 // Create token
                 var token = tokenHandler.CreateToken(tokenDescriptor);

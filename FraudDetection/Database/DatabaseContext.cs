@@ -11,6 +11,7 @@ namespace FraudDetection.Database
 
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppUserRoles> Roles { get; set; }
+        public DbSet<InsuranceClaim> InsuranceClaims { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -35,6 +35,9 @@ namespace FraudDetection.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -82,6 +85,9 @@ namespace FraudDetection.Migrations
                     b.Property<string>("UniqueIdNumber")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -177,7 +183,7 @@ namespace FraudDetection.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("InsuranceClaim");
+                    b.ToTable("InsuranceClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
