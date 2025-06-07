@@ -12,29 +12,33 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:8000",
+      "launchBrowser": false,
+      "applicationUrl": "http://0.0.0.0:80", // Updated for public access
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "DB_CONNECTION_STRING": "Host=db; Database=ClaimGuardDB; Username=claimguardai; Password=claimguardai", // Docker service 'db' used here
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461" // JWT Secret
       }
     },
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:8000",
+      "launchBrowser": false,
+      "applicationUrl": "https://0.0.0.0:443", // Updated for public access
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "DB_CONNECTION_STRING": "Host=db; Database=ClaimGuardDB; Username=claimguardai; Password=claimguar", // Docker service 'db' used here
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461" // JWT Secret
       }
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "DB_CONNECTION_STRING": "Host=db; Database=ClaimGuardDB; Username=claimguardai; Password=claimguardai", // Docker service 'db' used here
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461" // JWT Secret
       }
     }
   }
