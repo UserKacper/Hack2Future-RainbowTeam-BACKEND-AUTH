@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Controllers
+namespace FraudDetection.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -29,7 +29,7 @@ namespace backend.Controllers
             _tokenService = tokenService;
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginContract login)
+        public async Task<IActionResult> Login ([FromBody] LoginContract login)
         {
             if (!ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace backend.Controllers
 
 
         [HttpPost("verify-email")]
-        public async Task<IActionResult> VerifyEmail([FromQuery] string userId, [FromQuery] string token)
+        public async Task<IActionResult> VerifyEmail ([FromQuery] string userId, [FromQuery] string token)
         {
             if (!ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("send-email-confirmation")]
-        public async Task<IActionResult> SendEmailConfirmation([FromQuery] string userId)
+        public async Task<IActionResult> SendEmailConfirmation ([FromQuery] string userId)
         {
             if (!ModelState.IsValid)
             {
@@ -136,8 +136,8 @@ namespace backend.Controllers
                     Id = user.Id,
                     Email = user.Email ?? string.Empty,
                     FirstName = user.FirstName ?? string.Empty,
-                    LastName = user.LastName ?? string.Empty, 
-                    UniqueIdNumber = user.UniqueIdNumber ?? string.Empty, 
+                    LastName = user.LastName ?? string.Empty,
+                    UniqueIdNumber = user.UniqueIdNumber ?? string.Empty,
                     CreatedAt = user.CreatedAt,
                     UpdatedAt = user.UpdatedAt,
                     InsuranceClaims = user.InsuranceClaims.Select(claim => new GetInsuranceClaimsDto
@@ -196,7 +196,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public async Task<ActionResult> CreateUser(CreateAppUserDto createUser)
+        public async Task<ActionResult> CreateUser (CreateAppUserDto createUser)
         {
             if (!ModelState.IsValid)
             {
@@ -207,6 +207,7 @@ namespace backend.Controllers
             {
                 var appUser = new AppUser
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Email = createUser.Email,
                     UserName = createUser.Email,
                     FirstName = createUser.FirstName,
@@ -240,7 +241,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("DeleteUser/{id}")]
-        public async Task<ActionResult> DeleteUser([FromRoute]Guid id)
+        public async Task<ActionResult> DeleteUser ([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
@@ -273,7 +274,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("CreateAdmin")]
-        public async Task<ActionResult> CreateAppUser(CreateAppUserDto createUser)
+        public async Task<ActionResult> CreateAppUser (CreateAppUserDto createUser)
         {
             if (!ModelState.IsValid)
             {
@@ -284,6 +285,7 @@ namespace backend.Controllers
             {
                 var appUser = new AppUser
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Email = createUser.Email,
                     UserName = createUser.Email,
                     FirstName = createUser.FirstName,

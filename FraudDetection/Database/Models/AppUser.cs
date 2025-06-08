@@ -2,8 +2,13 @@
 
 namespace FraudDetection.Database.Models
 {
-    public class AppUser : IdentityUser<Guid>
+    public class AppUser : IdentityUser<string>
     {
+        public AppUser()
+        {
+            Id = Guid.NewGuid().ToString();
+            CreatedAt = DateTime.UtcNow;
+        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UniqueIdNumber {  get; set; }

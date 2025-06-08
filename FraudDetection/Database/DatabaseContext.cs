@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FraudDetection.Database
 {
-    public class DatabaseContext : IdentityDbContext<AppUser, AppUserRoles, Guid>
+    public class DatabaseContext : IdentityDbContext<AppUser, AppUserRoles, string>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options) { }

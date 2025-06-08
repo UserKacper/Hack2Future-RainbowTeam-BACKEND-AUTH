@@ -7,7 +7,7 @@ namespace FraudDetection.DTOs
         public string LastName { get; set; }
         public string UniqueIdNumber { get; set; }
         public string Email { get; set; }
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Role { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

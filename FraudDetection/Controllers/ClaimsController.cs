@@ -1,7 +1,6 @@
 ﻿using FraudDetection.Database;
 using FraudDetection.Database.Models;
 using FraudDetection.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +37,7 @@ namespace FraudDetection.Controllers
             }
         }
         [HttpGet("get-user-claims/{id}")]
-        public async Task<ActionResult<IEnumerable<InsuranceClaim>>> GetUserClaims([FromRoute]Guid id)
+        public async Task<ActionResult<IEnumerable<InsuranceClaim>>> GetUserClaims([FromRoute]string id)
         {
             if(!ModelState.IsValid)
             {
@@ -46,7 +45,7 @@ namespace FraudDetection.Controllers
             }
             try
             {
-                var user = await _userManager.FindByIdAsync(id.ToString());
+                var user = await _userManager.FindByIdAsync(id);
                 if (user == null)
                 {
                     return NotFound("User not found");
@@ -74,7 +73,12 @@ namespace FraudDetection.Controllers
             }
             try
             {
-                Guid UserId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var UserId = User.FindFirst("Id")?.Value;
+
+                if (string.IsNullOrEmpty(UserId))
+                {
+                    return Unauthorized("User not authenticated");
+                }
 
                 var insuranceClaim = new InsuranceClaim
                 {

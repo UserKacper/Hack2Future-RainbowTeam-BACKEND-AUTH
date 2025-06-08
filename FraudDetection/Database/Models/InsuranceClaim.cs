@@ -6,12 +6,11 @@ namespace FraudDetection.Database.Models
     public class InsuranceClaim
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         // Foreign key to user
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public AppUser AppUser { get; set; }
 
         // Claim details

@@ -33,13 +33,13 @@ namespace FraudDetection.Services
                 {
                     Subject = new ClaimsIdentity(new[]
                     {
-                        new Claim(ClaimTypes.Email, appUser.Email),
-                        new Claim(ClaimTypes.NameIdentifier, appUser.Id.ToString()),
-                        new Claim(ClaimTypes.Role, (await _userManager.GetRolesAsync(appUser)).FirstOrDefault() ?? string.Empty),
+                        new Claim("Email", appUser.Email),
+                        new Claim("Id", appUser.Id),
+                        new Claim("Role", (await _userManager.GetRolesAsync(appUser)).FirstOrDefault() ?? string.Empty),
                     }),
                     Expires = expirationTime,
-                    Issuer = "http://localhost:8000", // 👈 MUST MATCH Program.cs
-                    Audience = "http://localhost:8000", // 👈 MUST MATCH Program.cs
+                    Issuer = "http://localhost:5000", // 👈 MUST MATCH Program.cs
+                    Audience = "http://localhost:5000", // 👈 MUST MATCH Program.cs
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["secret:jwt"])),
                         SecurityAlgorithms.HmacSha256Signature

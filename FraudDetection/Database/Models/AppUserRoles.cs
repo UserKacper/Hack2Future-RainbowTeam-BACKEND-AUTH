@@ -2,7 +2,7 @@
 
 namespace FraudDetection.Database.Models
 {
-    public class AppUserRoles:IdentityRole<Guid>
+    public class AppUserRoles:IdentityRole<string>
     {
     }
 }

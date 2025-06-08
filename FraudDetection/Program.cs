@@ -27,8 +27,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "http://localhost:8000",
-        ValidAudience = "http://localhost:8000",
+        ValidIssuer = "http://localhost:5000",
+        ValidAudience = "http://localhost:5000",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret:jwt"))
     };
 });
@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
       "prod",
       builder =>
       {
-          builder.WithOrigins("https://frontend.com").AllowAnyMethod().AllowAnyHeader();
+          builder.WithOrigins("https://claimguardai.com").AllowAnyMethod().AllowAnyHeader();
       }
   );
 });

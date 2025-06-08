@@ -4,7 +4,7 @@ namespace FraudDetection.DTOs
 {
     public class GetInsuranceClaimsDto
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string ClaimType { get; set; } // e.g., Collision, Theft, PIP, Application, Repair, Agent
         public string FraudSubtype { get; set; } // e.g., Swoop and Squat, Owner Give-Up, Exaggerated Injuries
         public string Description { get; set; }

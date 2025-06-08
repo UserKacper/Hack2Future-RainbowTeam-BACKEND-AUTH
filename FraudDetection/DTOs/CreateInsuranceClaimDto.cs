@@ -24,6 +24,5 @@ namespace FraudDetection.DTOs
 
         public bool IsConfirmedFraud { get; set; } = false;
         public string ImageUrl { get; set; } // Optional field for image URL associated with the claim
-        public string VideoUrl { get; set; } // Optional field for video URL associated with the claim
     }
 }
