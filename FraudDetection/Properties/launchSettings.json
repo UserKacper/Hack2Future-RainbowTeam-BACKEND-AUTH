@@ -17,7 +17,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
         "DB_CONNECTION_STRING": "Host=db; Database=ClaimGuardDB; Username=claimguardai; Password=claimguardai",
-        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461"
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461",
+        "JWT_ISSUER": "http://localhost:5000",
+        "JWT_AUDIENCE": "http://localhost:5000",
+        "AZURE_BLOB_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=documentstoreeu;AccountKey=u7/u8f1WFYFVjiXj25RFB9BAG5aWByzxUMcdN0XLib1Dz/NmLZRsJ8HRCQSb0ASBLdXalcHMufZ3+AStXNbMsg==;EndpointSuffix=core.windows.net",
+        "AZURE_BLOB_CONTAINER_NAME": "claimimages"
       }
     },
     "https": {
@@ -28,7 +32,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
         "DB_CONNECTION_STRING": "Host=db; Database=ClaimGuardDB; Username=claimguardai; Password=claimguardai",
-        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461"
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461",
+        "JWT_ISSUER": "http://localhost:5000",
+        "JWT_AUDIENCE": "http://localhost:5000",
+        "AZURE_BLOB_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=documentstoreeu;AccountKey=u7/u8f1WFYFVjiXj25RFB9BAG5aWByzxUMcdN0XLib1Dz/NmLZRsJ8HRCQSb0ASBLdXalcHMufZ3+AStXNbMsg==;EndpointSuffix=core.windows.net",
+        "AZURE_BLOB_CONTAINER_NAME": "claimimages"
       }
     },
     "IIS Express": {
@@ -38,7 +46,11 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
         "DB_CONNECTION_STRING": "Host=db; Database=ClaimGuardDB; Username=claimguardai; Password=claimguardai",
-        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461"
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461",
+        "JWT_ISSUER": "http://localhost:5000",
+        "JWT_AUDIENCE": "http://localhost:5000",
+        "AZURE_BLOB_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=documentstoreeu;AccountKey=u7/u8f1WFYFVjiXj25RFB9BAG5aWByzxUMcdN0XLib1Dz/NmLZRsJ8HRCQSb0ASBLdXalcHMufZ3+AStXNbMsg==;EndpointSuffix=core.windows.net",
+        "AZURE_BLOB_CONTAINER_NAME": "claimimages"
       }
     },
     "dev": {
@@ -48,10 +60,12 @@
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "Host=localhost; Database=ClaimGuardDB; Username=postgres; Password=admin",
-        "SECRET_JWT": "devsecretkey1234567890",
+        "DB_CONNECTION_STRING": "Host=145.239.80.20;Database=ClaimGuardDBdev;Username=postgres;Password=salooniksql",
+        "SECRET_JWT": "6b5ec6a2e56a7e2f574ed5fd14f733136f1f6b820c86a46c7aadf4c6e774895791db51bac043075cd617dad78506ff0cca0694f063610ee174718eba125c86161cc915e86091ec989d3d4b30e3224d12104aedb8bf183b720b4ae36ca56902ada8eebc63189aa152597ac75f75b79792e61ae21bb11b340b83288ca8d86ee461",
         "JWT_ISSUER": "http://localhost:5000",
-        "JWT_AUDIENCE": "http://localhost:5000"
+        "JWT_AUDIENCE": "http://localhost:5000",
+        "AZURE_BLOB_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=documentstoreeu;AccountKey=u7/u8f1WFYFVjiXj25RFB9BAG5aWByzxUMcdN0XLib1Dz/NmLZRsJ8HRCQSb0ASBLdXalcHMufZ3+AStXNbMsg==;EndpointSuffix=core.windows.net",
+        "AZURE_BLOB_CONTAINER_NAME": "claimimages"
       }
     }
   }

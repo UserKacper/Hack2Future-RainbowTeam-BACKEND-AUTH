@@ -23,6 +23,6 @@ namespace FraudDetection.DTOs
         public bool IsPotentialFraud { get; set; } = false;
 
         public bool IsConfirmedFraud { get; set; } = false;
-        public string ImageUrl { get; set; } // Optional field for image URL associated with the claim
+        public string? ImageUrl { get; set; } // Optional field for image URL associated with the claim
     }
 }

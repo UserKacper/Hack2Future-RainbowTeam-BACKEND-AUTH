@@ -121,7 +121,7 @@ namespace FraudDetection.Controllers
             }
         }
 
-        [HttpGet("GetAllUsers")]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<GetUsersDto>>> GetUsers ()
         {
             try
@@ -137,7 +137,6 @@ namespace FraudDetection.Controllers
                     Email = user.Email ?? string.Empty,
                     FirstName = user.FirstName ?? string.Empty,
                     LastName = user.LastName ?? string.Empty,
-                    UniqueIdNumber = user.UniqueIdNumber ?? string.Empty,
                     CreatedAt = user.CreatedAt,
                     UpdatedAt = user.UpdatedAt,
                     InsuranceClaims = user.InsuranceClaims.Select(claim => new GetInsuranceClaimsDto
@@ -166,7 +165,7 @@ namespace FraudDetection.Controllers
 
 
 
-        [HttpGet("GetUserById/{id}")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<GetUsersDto>> GetUserById (Guid id)
         {
             try
@@ -183,7 +182,6 @@ namespace FraudDetection.Controllers
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    UniqueIdNumber = user.UniqueIdNumber
                 };
 
                 return Ok(userDto);
@@ -195,7 +193,7 @@ namespace FraudDetection.Controllers
             }
         }
 
-        [HttpPost("CreateUser")]
+        [HttpPost("create")]
         public async Task<ActionResult> CreateUser (CreateAppUserDto createUser)
         {
             if (!ModelState.IsValid)
@@ -212,7 +210,6 @@ namespace FraudDetection.Controllers
                     UserName = createUser.Email,
                     FirstName = createUser.FirstName,
                     LastName = createUser.LastName,
-                    UniqueIdNumber = createUser.UniqueIdNumber
                 };
 
                 var result = await _userManager.CreateAsync(appUser, createUser.Password);
@@ -240,7 +237,7 @@ namespace FraudDetection.Controllers
             }
         }
 
-        [HttpDelete("DeleteUser/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult> DeleteUser ([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -273,7 +270,7 @@ namespace FraudDetection.Controllers
             }
         }
 
-        [HttpPost("CreateAdmin")]
+        [HttpPost("create-admin")]
         public async Task<ActionResult> CreateAppUser (CreateAppUserDto createUser)
         {
             if (!ModelState.IsValid)
@@ -290,7 +287,6 @@ namespace FraudDetection.Controllers
                     UserName = createUser.Email,
                     FirstName = createUser.FirstName,
                     LastName = createUser.LastName,
-                    UniqueIdNumber = createUser.UniqueIdNumber
                 };
 
                 var result = await _userManager.CreateAsync(appUser, createUser.Password);

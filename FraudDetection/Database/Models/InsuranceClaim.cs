@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace FraudDetection.Database.Models
 {
@@ -10,7 +12,8 @@ namespace FraudDetection.Database.Models
 
         // Foreign key to user
         [Required]
-        public string UserId { get; set; }
+        public string AppUserId{ get; set; }
+        [JsonIgnore]
         public AppUser AppUser { get; set; }
 
         // Claim details
@@ -24,12 +27,13 @@ namespace FraudDetection.Database.Models
 
         [MaxLength(1000)]
         public string Description { get; set; }
-
+        [Url]
+        [AllowNull]
+        public string ImageUrl { get; set; }
         public DateTime DateOfClaim { get; set; }
 
         [MaxLength(50)]
         public string ClaimStatus { get; set; } // e.g., Pending, Approved, Denied, Under Investigation
-
         public bool IsPotentialFraud { get; set; } = false;
 
         public bool IsConfirmedFraud { get; set; } = false;

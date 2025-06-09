@@ -1,10 +1,11 @@
 ﻿using FraudDetection.Database;
 using FraudDetection.Database.Models;
 using FraudDetection.DTOs;
+using FraudDetection.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace FraudDetection.Controllers
 {
@@ -15,14 +16,17 @@ namespace FraudDetection.Controllers
         private readonly ILogger<ClaimsController> _logger;
         private readonly DatabaseContext _context;
         private readonly UserManager<AppUser> _userManager;
-        public ClaimsController (ILogger<ClaimsController> logger, DatabaseContext context, UserManager<AppUser> userManager)
+        private readonly IBlobStorageService _blobStorageService;
+
+        public ClaimsController(ILogger<ClaimsController> logger, DatabaseContext context, UserManager<AppUser> userManager, IBlobStorageService blobStorageService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _blobStorageService = blobStorageService;
         }
 
-        [HttpGet("get-all-claims")]
+        [HttpGet("get-all")]
         public async Task<ActionResult<IEnumerable<InsuranceClaim>>> GetAllClaims()
         {
             try
@@ -36,10 +40,11 @@ namespace FraudDetection.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
         [HttpGet("get-user-claims/{id}")]
-        public async Task<ActionResult<IEnumerable<InsuranceClaim>>> GetUserClaims([FromRoute]string id)
+        public async Task<ActionResult<IEnumerable<InsuranceClaim>>> GetUserClaims([FromRoute] string id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -52,7 +57,7 @@ namespace FraudDetection.Controllers
                 }
 
                 var claims = await _context.InsuranceClaims
-                    .Where(c => c.UserId == id)
+                    .Where(c => c.AppUserId == id)
                     .ToListAsync();
 
                 return Ok(claims);
@@ -64,45 +69,107 @@ namespace FraudDetection.Controllers
             }
         }
 
-        [HttpPost("create-insurance-claim")]
-        public async Task<ActionResult> CreateClaim ([FromBody] CreateInsuranceClaimDto claim)
+        [HttpPost("upload-claim-image")]
+        public async Task<ActionResult> UploadClaimImage([FromForm] IFormFile file, [FromQuery] string claimId)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded");
+            }
+
+            if (string.IsNullOrEmpty(claimId))
+            {
+                return BadRequest("Claim ID is required");
+            }
+
+            try
+            {
+                var claim = await _context.InsuranceClaims.FindAsync(claimId);
+                if (claim == null)
+                {
+                    return NotFound("Claim not found");
+                }
+
+                using var stream = file.OpenReadStream();
+                var imageUrl = await _blobStorageService.UploadFileAsync(
+                    stream,
+                    file.FileName,
+                    file.ContentType);
+
+                claim.ImageUrl = imageUrl;
+                await _context.SaveChangesAsync();
+
+                return Ok(new { ImageUrl = claim.ImageUrl });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading claim image");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost("create")]
+        public async Task<ActionResult> CreateClaim([FromBody] CreateInsuranceClaimDto claim, [FromQuery] string userId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is required");
+            }
+
             try
             {
-                var UserId = User.FindFirst("Id")?.Value;
-
-                if (string.IsNullOrEmpty(UserId))
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
                 {
-                    return Unauthorized("User not authenticated");
+                    return NotFound($"User with ID {userId} not found");
+                }
+
+                if (string.IsNullOrEmpty(claim.ClaimType) || string.IsNullOrEmpty(claim.FraudSubtype))
+                {
+                    return BadRequest("ClaimType and FraudSubtype are required fields");
                 }
 
                 var insuranceClaim = new InsuranceClaim
                 {
-                    ClaimStatus = claim.ClaimStatus,
-                    ClaimType = claim.ClaimType,
-                    Description = claim.Description,
+                    Id = Guid.NewGuid().ToString(),
+                    ClaimStatus = claim.ClaimStatus ?? "Pending",
+                    ClaimType = claim.ClaimType.Trim(),
+                    Description = claim.Description?.Trim() ?? string.Empty,
                     CreatedAt = DateTime.UtcNow,
-                    UserId = UserId,
-                    FraudSubtype = claim.FraudSubtype,
-                    DateOfClaim = claim.DateOfClaim,
+                    AppUserId = userId,  // Add this line to fix the not-null constraint
+                    FraudSubtype = claim.FraudSubtype.Trim(),
+                    DateOfClaim = claim.DateOfClaim == default ? DateTime.UtcNow : claim.DateOfClaim,
                     IsPotentialFraud = claim.IsPotentialFraud,
-                    IsConfirmedFraud = claim.IsConfirmedFraud
+                    IsConfirmedFraud = claim.IsConfirmedFraud,
+                    ImageUrl = claim.ImageUrl ?? string.Empty
                 };
 
-                _context.InsuranceClaims.Add(insuranceClaim); 
+                await _context.InsuranceClaims.AddAsync(insuranceClaim);
+                
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    _logger.LogError(dbEx, "Database error while saving insurance claim");
+                    return StatusCode(500, "Failed to save the insurance claim");
+                }
 
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction(nameof(CreateClaim), new { id = insuranceClaim.Id }, insuranceClaim);
+                return CreatedAtAction(
+                    nameof(GetUserClaims),
+                    new { id = userId },
+                    insuranceClaim);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating insurance claim");
-                return StatusCode(500, "Internal server error");
+                _logger.LogError(ex, "Unexpected error while creating insurance claim for user {UserId}", userId);
+                return StatusCode(500, "An unexpected error occurred while processing your request");
             }
         }
     }
